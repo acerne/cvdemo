@@ -39,7 +39,7 @@ array_erode = cv2.morphologyEx(array, cv2.MORPH_ERODE, kernel)
 array_dilate = cv2.morphologyEx(array, cv2.MORPH_DILATE, kernel)
 
 
-fig = plot_two(array, array_erode, 'Erosion', array_dilate, 'Dilation')
+fig = plot_two('Erosion', [array, array_erode], 'Dilation', [array, array_dilate])
 if args.save:
     save_plot('out/filters/', 'erode_dilate_graph.png', fig)
 else:

@@ -21,29 +21,29 @@ def polynom_sample():
 
     range = np.linspace(0, 100, 100)
 
-    return polynom(range)
+    return polynom(range).astype(np.uint8)
 
 def save_image(path, filename, image):
     if not os.path.exists(path):
         os.makedirs(path)
     cv2.imwrite(path+filename, image)
 
-def plot_one(array, array1, title):
+def plot_one(title, arrays):
     plt.rcParams['figure.figsize'] = [4,4]
     fig, axis = plt.subplots()
-    axis.plot(array, linewidth=3, linestyle='-')
-    axis.plot(array1, linewidth=2, linestyle='-')
+    for array in arrays:
+        axis.plot(array, linewidth=2, linestyle='-')
     axis.set_title(title)
     return fig
 
-def plot_two(array, array1, title1, array2, title2):
+def plot_two(title1, arrays1, title2, arrays2):
     plt.rcParams['figure.figsize'] = [8,4]
     fig, axis = plt.subplots(nrows=1, ncols=2)
-    axis[0].plot(array, linewidth=2, linestyle='-')
-    axis[0].plot(array1, linewidth=2, linestyle='-')
+    for array in arrays1:
+        axis[0].plot(array, linewidth=2, linestyle='-')
     axis[0].set_title(title1)
-    axis[1].plot(array, linewidth=2, linestyle='-')
-    axis[1].plot(array2,  linewidth=2, linestyle='-')
+    for array in arrays2:
+        axis[1].plot(array, linewidth=2, linestyle='-')
     axis[1].set_title(title2)
     return fig
 

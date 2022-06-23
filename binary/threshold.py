@@ -15,14 +15,13 @@ args = parser.parse_args()
 
 
 # Image example
-original = cv2.imread('img/baboon.png')
+original = cv2.imread('img/sudoku.png', cv2.IMREAD_GRAYSCALE)
+ret, binary = cv2.threshold(original, 63, 255, cv2.THRESH_BINARY)
 
-average = cv2.blur(original, [11, 11])
 
-
-display = cv2.hconcat([original, average])
+display = cv2.hconcat([original, binary])
 if args.save:
-    save_image('out/filters/', 'average_img.png', display)
+    save_image('out/binary/', 'threshold_img.png', display)
 else:
     cv2.imshow('Example', display)
     cv2.waitKey(0)
@@ -31,12 +30,12 @@ else:
 
 # 1D example
 array = polynom_sample()
+threshold = np.ones(array.size)*127
+ret, binary = cv2.threshold(array, 127, 255, cv2.THRESH_BINARY)
 
-array_blur = cv2.blur(array, [1, 11])
 
-
-fig = plot_one('Average', [array, array_blur])
+fig = plot_one('Threshold', [array, binary, threshold])
 if args.save:
-    save_plot('out/filters/', 'average_graph.png', fig)
+    save_plot('out/binary/', 'threshold_graph.png', fig)
 else:
     plt.show()

@@ -39,7 +39,7 @@ array_open = cv2.morphologyEx(array, cv2.MORPH_OPEN, kernel)
 array_close = cv2.morphologyEx(array, cv2.MORPH_CLOSE, kernel)
 
 
-fig = plot_two(array, array_open, 'Opening', array_close, 'Closing')
+fig = plot_two('Opening', [array, array_open], 'Closing', [array, array_close])
 if args.save:
     save_plot('out/filters/', 'open_close_graph.png', fig)
 else:

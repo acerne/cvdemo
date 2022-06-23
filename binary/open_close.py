@@ -15,7 +15,7 @@ args = parser.parse_args()
 
 
 # Image example
-original = cv2.imread('img/fingerprint.png', cv2.COLOR_BGR2GRAY)
+original = cv2.imread('img/fingerprint.png', cv2.IMREAD_GRAYSCALE)
 ret, binary = cv2.threshold(original, 127, 255, cv2.THRESH_BINARY)
 
 kernel = np.ones((5, 5), np.uint8)
@@ -41,7 +41,7 @@ array_open = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
 array_close = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
 
 
-fig = plot_two(binary, array_open, 'Opening', array_close, 'Closing')
+fig = plot_two('Opening', [binary, array_open], 'Closing', [binary, array_close])
 if args.save:
     save_plot('out/binary/', 'open_close_graph.png', fig)
 else:

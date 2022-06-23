@@ -15,7 +15,7 @@ args = parser.parse_args()
 
 
 # Image example
-original = cv2.imread('img/fingerprint.png', cv2.COLOR_BGR2GRAY)
+original = cv2.imread('img/fingerprint.png', cv2.IMREAD_GRAYSCALE)
 ret, binary = cv2.threshold(original, 127, 255, cv2.THRESH_BINARY)
 
 kernel = np.ones((5, 5), np.uint8)
@@ -41,7 +41,7 @@ array_erode = cv2.morphologyEx(binary, cv2.MORPH_ERODE, kernel)
 array_dilate = cv2.morphologyEx(binary, cv2.MORPH_DILATE, kernel)
 
 
-fig = plot_two(binary, array_erode, 'Erosion', array_dilate, 'Dilation')
+fig = plot_two('Erosion', [binary, array_erode], 'Dilation', [binary, array_dilate])
 if args.save:
     save_plot('out/binary/', 'erode_dilate_graph.png', fig)
 else:
