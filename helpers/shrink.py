@@ -5,7 +5,7 @@ import os
 sys.path.append('../')
 from cvdemo.common import *
 
-src = cv2.imread('img/stars.jpg')
+src = cv2.imread('img/space.jpg')
 
 #percent by which the image is resized
 scale_percent = 50
@@ -20,4 +20,4 @@ dsize = (width, height)
 # resize image
 output = cv2.resize(src, dsize)
 
-cv2.imwrite('img/stars.png', output)
+cv2.imwrite('img/space.png', output)

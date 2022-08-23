@@ -8,14 +8,17 @@ def crop(img, x, y, w, h):
         return img[y:(y+h), x:(x+w)]
 
 def zoom(img, pix_size):
-    return cv2.resize(img, [img.shape[0]*pix_size, img.shape[1]*pix_size], interpolation=cv2.INTER_NEAREST)
+    return cv2.resize(img, [img.shape[1]*pix_size, img.shape[0]*pix_size], interpolation=cv2.INTER_NEAREST)
 
 def annotate_gray(img, pix_size):
-    rgb = cv2.merge([img,img,img])
+    img_copy = img.copy()
     for y in range(0, img.shape[0], pix_size):
         for x in range(0, img.shape[1], pix_size):
-            cv2.putText(rgb, hex(img[y][x])[2:], (x+5,y+35), cv2.FONT_HERSHEY_COMPLEX, 1, (0,0,200))
-    return rgb
+            if img[y][x] > 127:
+                cv2.putText(img_copy, hex(img[y][x])[2:], (x+5,y+35), cv2.FONT_HERSHEY_COMPLEX, 1, 0)
+            else:
+                cv2.putText(img_copy, hex(img[y][x])[2:], (x+5,y+35), cv2.FONT_HERSHEY_COMPLEX, 1, 255)
+    return img_copy
 
 def annotate_rgb(img, pix_size):
     img_copy = img.copy()
@@ -36,6 +39,18 @@ def annotate_channels(img, pix_size):
             cv2.putText(rgb_g, hex(g[y][x])[2:], (x+5,y+35), cv2.FONT_HERSHEY_COMPLEX, 1, (255,255,255))
             cv2.putText(rgb_b, hex(b[y][x])[2:], (x+5,y+35), cv2.FONT_HERSHEY_COMPLEX, 1, (255,255,255))
     return rgb_r, rgb_g, rgb_b
+
+def to_packed(img):
+    h = img.shape[0]
+    w = img.shape[1]
+    w3 = img.shape[1]*3
+    packed = np.zeros([h, w3, 3], dtype=np.uint8)
+    for y in range(0, h, 1):
+        for x in range(0, w, 1):
+            packed[y,3*x,2] = img[y,x,2]
+            packed[y,3*x+1,1] = img[y,x,1]
+            packed[y,3*x+2,0] = img[y,x,0]
+    return packed
 
 def annotate_filter(img, i, j, w, h, pix_size):
     img_copy = img.copy()
